@@ -1,0 +1,22 @@
+name: SWelcome
+version: 1.0.0
+main: me.sirius.swelcome.SWelcome
+author: Sirius
+api-version: '1.21'
+description: Sistema avanzado de mensajes de bienvenida y salida con soporte para LuckPerms
+# Sin SiriusCore.jar, Bukkit ni intenta cargar este plugin.
+depend:
+  - SiriusCore
+
+softdepend: [LuckPerms]
+
+commands:
+  swelcome:
+    description: Comando principal de SWelcome
+    usage: /swelcome [toggle|reload|help]
+    aliases: [sw, welcome]
+
+permissions:
+  swelcome.admin:
+    description: Permite recargar la configuración del plugin
+    default: op

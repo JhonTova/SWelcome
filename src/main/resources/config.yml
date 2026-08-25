@@ -1,0 +1,129 @@
+messages:
+  first-join:
+    global: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#00FF00:#00AA00>ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴘᴏʀ ᴘʀɪᴍᴇʀᴀ ᴠᴇᴢ</gradient> &#FFD700{player} <gradient:#00FF00:#00AA00>ᴀʟ sᴇʀᴠɪᴅᴏʀ!</gradient>
+      &7ᴇʀᴇs ᴇʟ ᴊᴜɢᴀᴅᴏʀ <gradient:#FFD700:#FFA500>#{number}</gradient> &7ᴇɴ ᴜɴɪʀsᴇ ᴀ <gradient:#FF1493:#FF006F>ᴍʏsᴛʜɪᴄ ɴᴇᴛᴡᴏʀᴋ</gradient>
+      
+    personal: |
+      &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      <gradient:#FFD700:#FFA500>¡ʜᴏʟᴀ {player}!</gradient>
+      &7
+      <gradient:#FF1493:#FF006F>✦</gradient> &7ᴇʀᴇs ᴇʟ ᴊᴜɢᴀᴅᴏʀ <gradient:#FFD700:#FFA500>#{playernumber}</gradient> &7ᴇɴ ᴇɴᴛʀᴀʀ ᴀ
+      <gradient:#FF1493:#FF006F>✦</gradient> &7ʟᴀ ᴍᴏᴅᴀʟɪᴅᴀᴅ <gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>
+      &7
+      <gradient:#00FF00:#00AA00>✦</gradient> &7ᴇsᴘᴇʀᴀᴍᴏs ǫᴜᴇ ᴅɪsғʀᴜᴛᴇs ᴛᴜ ᴇsᴛᴀᴅíᴀ
+      <gradient:#00FF00:#00AA00>✦</gradient> &7ʏ ᴛᴇ ᴅɪᴠɪᴇʀᴛᴀs ᴍᴜᴄʜᴏ ᴄᴏɴ ɴᴏsᴏᴛʀᴏs
+      &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  
+  welcome-back: |
+    &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    {skin_line_0}     <gradient:#FF1493:#FF006F>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴅᴇ ᴠᴜᴇʟᴛᴀ</gradient> &#FFD700{player}<gradient:#FF1493:#FF006F>!</gradient>
+    {skin_line_1}     
+    {skin_line_2}     <gradient:#FFD700:#FFA500>ᴅɪsᴄᴏʀᴅ:</gradient> &fdiscord.gg/mysthic
+    {skin_line_3}     <gradient:#00FF00:#00AA00>ᴛɪᴇɴᴅᴀ:</gradient> &ftienda.mysthic.net
+    {skin_line_4}     
+    {skin_line_5}     &7ǫᴜᴇ ᴅɪsғʀᴜᴛᴇs ᴛᴜ ᴇsᴛᴀᴅíᴀ
+    {skin_line_6}     <gradient:#FF1493:#FF006F>ᴇɴ</gradient> <gradient:#FFD700:#FFA500>ᴍʏsᴛʜɪᴄ ɴᴇᴛᴡᴏʀᴋ</gradient>
+    {skin_line_7}     
+    &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+settings:
+  show-skin-on-join: true
+  skin-size: 8
+
+ranks:
+  tenno:
+    join:
+      global: |
+        
+        &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#FF1493:#FF006F>ᴛᴇɴɴᴏ</gradient> &f{player} &7ᴀᴄᴀʙᴀ ᴅᴇ ᴜɴɪʀsᴇ ᴀ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+        
+      personal: |
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <gradient:#FF1493:#FF006F>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴛᴇɴɴᴏ {player}!</gradient>
+        &7ɢʀᴀᴄɪᴀs ᴘᴏʀ ᴀᴘᴏʏᴀʀ ᴇʟ sᴇʀᴠɪᴅᴏʀ.
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    quit: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#FF1493:#FF006F>ᴛᴇɴɴᴏ</gradient> &f{player} &7ʜᴀ sᴀʟɪᴅᴏ ᴅᴇ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+      
+  
+  media+:
+    join:
+      global: |
+        
+        &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#F554E6:#EA3ECC>ᴍᴇᴅɪᴀ</gradient>&e+ &f{player} &7ᴀᴄᴀʙᴀ ᴅᴇ ᴜɴɪʀsᴇ ᴀ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+        
+      personal: |
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <gradient:#F554E6:#EA3ECC>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴍᴇᴅɪᴀ+ {player}!</gradient>
+        &7ɢʀᴀᴄɪᴀs ᴘᴏʀ ᴀᴘᴏʏᴀʀ ᴇʟ sᴇʀᴠɪᴅᴏʀ.
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    quit: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#F554E6:#EA3ECC>ᴍᴇᴅɪᴀ</gradient>&e+ &f{player} &7ʜᴀ sᴀʟɪᴅᴏ ᴅᴇ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+      
+  
+  media:
+    join:
+      global: |
+        
+        &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#F554E6:#EA3ECC>ᴍᴇᴅɪᴀ</gradient> &f{player} &7ᴀᴄᴀʙᴀ ᴅᴇ ᴜɴɪʀsᴇ ᴀ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+        
+      personal: |
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <gradient:#F554E6:#EA3ECC>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴍᴇᴅɪᴀ {player}!</gradient>
+        &7ɢʀᴀᴄɪᴀs ᴘᴏʀ ᴀᴘᴏʏᴀʀ ᴇʟ sᴇʀᴠɪᴅᴏʀ.
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    quit: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#F554E6:#EA3ECC>ᴍᴇᴅɪᴀ</gradient> &f{player} &7ʜᴀ sᴀʟɪᴅᴏ ᴅᴇ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+      
+  
+  kitsune:
+    join:
+      global: |
+        
+        &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#26BA7A:#00B87A>ᴋɪᴛsᴜɴᴇ</gradient> &f{player} &7ᴀᴄᴀʙᴀ ᴅᴇ ᴜɴɪʀsᴇ ᴀ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+        
+      personal: |
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <gradient:#26BA7A:#00B87A>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴋɪᴛsᴜɴᴇ {player}!</gradient>
+        &7ɢʀᴀᴄɪᴀs ᴘᴏʀ ᴀᴘᴏʏᴀʀ ᴇʟ sᴇʀᴠɪᴅᴏʀ.
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    quit: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#26BA7A:#00B87A>ᴋɪᴛsᴜɴᴇ</gradient> &f{player} &7ʜᴀ sᴀʟɪᴅᴏ ᴅᴇ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+      
+  
+  daimyo:
+    join:
+      global: |
+        
+        &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#FFD700:#FFA000>ᴅᴀɪᴍʏᴏ</gradient> &f{player} &7ᴀᴄᴀʙᴀ ᴅᴇ ᴜɴɪʀsᴇ ᴀ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+        
+      personal: |
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <gradient:#FFD700:#FFA000>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴅᴀɪᴍʏᴏ {player}!</gradient>
+        &7ɢʀᴀᴄɪᴀs ᴘᴏʀ ᴀᴘᴏʏᴀʀ ᴇʟ sᴇʀᴠɪᴅᴏʀ.
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    quit: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#FFD700:#FFA000>ᴅᴀɪᴍʏᴏ</gradient> &f{player} &7ʜᴀ sᴀʟɪᴅᴏ ᴅᴇ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+      
+  
+  ronin:
+    join:
+      global: |
+        
+        &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#00D4FF:#00FCFF>ʀᴏɴɪɴ</gradient> &f{player} &7ᴀᴄᴀʙᴀ ᴅᴇ ᴜɴɪʀsᴇ ᴀ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
+        
+      personal: |
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <gradient:#00D4FF:#00FCFF>¡ʙɪᴇɴᴠᴇɴɪᴅᴏ ʀᴏɴɪɴ {player}!</gradient>
+        &7ɢʀᴀᴄɪᴀs ᴘᴏʀ ᴀᴘᴏʏᴀʀ ᴇʟ sᴇʀᴠɪᴅᴏʀ.
+        &7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    quit: |
+      
+      &e[<gradient:#FF1493:#FF006F>sᴀᴋᴜʀᴀ</gradient>&e] <gradient:#00D4FF:#00FCFF>ʀᴏɴɪɴ</gradient> &f{player} &7ʜᴀ sᴀʟɪᴅᴏ ᴅᴇ ʟᴀ ᴘᴀʀᴛɪᴅᴀ
