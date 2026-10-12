@@ -15,7 +15,6 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 
-import java.util.concurrent.CompletableFuture;
 
 public class PlayerJoinListener implements Listener {
     
@@ -39,25 +38,19 @@ public class PlayerJoinListener implements Listener {
         
         Player player = event.getPlayer();
         String playerName = player.getName();
-        boolean isFirstJoin = !playerDataManager.hasJoined(playerName);
         boolean isBedrockPlayer = playerName.startsWith(".");
         // Si el jugador desactivó su mensaje global, no se hace broadcast (el personal sí se muestra)
         boolean globalDisabled = playerDataManager.hasJoinMessageDisabled(playerName);
-        
-        CompletableFuture.runAsync(() -> {
-            String rank = getRank(player);
-            
-            if (isFirstJoin) {
-                int playerNumber = playerDataManager.addPlayer(playerName);
-                handleFirstJoin(player, rank, isBedrockPlayer, playerNumber, globalDisabled);
-            } else {
-                handleRegularJoin(player, rank, isBedrockPlayer, globalDisabled);
-            }
-        }).exceptionally(throwable -> {
-            plugin.getLogger().severe("Error handling join for " + playerName + ": " + throwable.getMessage());
-            throwable.printStackTrace();
-            return null;
-        });
+
+        // Todo esto es memoria y permisos: va en el hilo principal. Antes se mandaba
+        // al pool comun y dos entradas a la vez se peleaban por el contador de jugadores.
+        String rank = getRank(player);
+        if (!playerDataManager.hasJoined(playerName)) {
+            int playerNumber = playerDataManager.addPlayer(playerName);
+            handleFirstJoin(player, rank, isBedrockPlayer, playerNumber, globalDisabled);
+        } else {
+            handleRegularJoin(player, rank, isBedrockPlayer, globalDisabled);
+        }
     }
     
     private void handleFirstJoin(Player player, String rank, boolean isBedrockPlayer, int playerNumber, boolean globalDisabled) {

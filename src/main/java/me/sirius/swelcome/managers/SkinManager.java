@@ -1,25 +1,31 @@
 package me.sirius.swelcome.managers;
 
+import me.sirius.swelcome.SWelcome;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class SkinManager {
     
-    private final Map<String, CachedSkin> skinCache = new HashMap<>();
+    private final SWelcome plugin;
+    private final Map<String, CachedSkin> skinCache = new ConcurrentHashMap<>();
     private static final String SYMBOL = "█";
     private static final int HEAD_SIZE = 8;
     private static final long CACHE_DURATION = TimeUnit.HOURS.toMillis(6);
     private static final int TIMEOUT_MS = 3000;
+
+    public SkinManager(SWelcome plugin) {
+        this.plugin = plugin;
+    }
     
     private static class CachedSkin {
         final String skinArt;
@@ -36,7 +42,9 @@ public class SkinManager {
     }
     
     public CompletableFuture<String> getSkinArtAsync(Player player, boolean isBedrockPlayer) {
-        return CompletableFuture.supplyAsync(() -> getSkinArt(player, isBedrockPlayer));
+        // La descarga bloquea hasta 3 s: va al pool asincrono del servidor y no al
+        // ForkJoinPool comun, que comparte toda la JVM.
+        return plugin.scheduler().supplyAsync(() -> getSkinArt(player, isBedrockPlayer));
     }
     
     public String getSkinArt(Player player, boolean isBedrockPlayer) {
@@ -60,7 +68,7 @@ public class SkinManager {
                 return skinArt;
             }
         } catch (Exception e) {
-            System.err.println("[SWelcome] Error generating skin for " + playerName + ": " + e.getMessage());
+            plugin.getLogger().log(Level.WARNING, "Error al generar la skin de " + playerName, e);
         }
         
         String defaultSkin = createDefaultSkinArt();
@@ -81,7 +89,7 @@ public class SkinManager {
             
             int responseCode = connection.getResponseCode();
             if (responseCode != 200) {
-                System.err.println("[SWelcome] HTTP " + responseCode + " for player " + playerName);
+                plugin.getLogger().warning("Respuesta HTTP " + responseCode + " al pedir la skin de " + playerName);
                 return null;
             }
             
@@ -94,10 +102,10 @@ public class SkinManager {
             return imageToSkinArt(image);
             
         } catch (java.net.SocketTimeoutException e) {
-            System.err.println("[SWelcome] Timeout getting skin for " + playerName);
+            plugin.getLogger().warning("Tiempo de espera agotado al pedir la skin de " + playerName);
             return null;
         } catch (Exception e) {
-            System.err.println("[SWelcome] Error generating skin art for " + playerName + ": " + e.getMessage());
+            plugin.getLogger().log(Level.WARNING, "Error al generar la skin de " + playerName, e);
             return null;
         } finally {
             if (connection != null) {

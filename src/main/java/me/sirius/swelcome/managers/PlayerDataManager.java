@@ -5,20 +5,25 @@ import com.google.gson.GsonBuilder;
 import me.sirius.swelcome.SWelcome;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class PlayerDataManager {
     
     private final SWelcome plugin;
     private final File dataFile;
     private final Gson gson;
+    private final Object writeLock = new Object();
     private PlayerData playerData;
+    private boolean dirty;
     
     public PlayerDataManager(SWelcome plugin) {
         this.plugin = plugin;
@@ -27,14 +32,14 @@ public class PlayerDataManager {
         this.playerData = new PlayerData();
     }
     
-    public void loadData() {
+    public synchronized void loadData() {
         if (!dataFile.exists()) {
             plugin.getDataFolder().mkdirs();
-            saveData();
+            dirty = true;
             return;
         }
-        
-        try (FileReader reader = new FileReader(dataFile)) {
+
+        try (Reader reader = Files.newBufferedReader(dataFile.toPath(), StandardCharsets.UTF_8)) {
             PlayerData loaded = gson.fromJson(reader, PlayerData.class);
             if (loaded != null) {
                 playerData = loaded;
@@ -46,72 +51,91 @@ public class PlayerDataManager {
                 plugin.getLogger().info("Datos cargados: " + playerData.joinedPlayers.size() + " jugadores, contador en " + playerData.totalPlayerCount);
             }
         } catch (IOException e) {
-            plugin.getLogger().severe("Error al cargar datos de jugadores: " + e.getMessage());
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Error al cargar datos de jugadores", e);
         }
     }
     
+    // Se serializa dentro del candado y se escribe fuera: el JSON sale de una foto
+    // coherente y el disco no bloquea a quien consulta los datos mientras tanto.
+    // El segundo candado evita que dos guardados escriban el fichero a la vez.
     public void saveData() {
-        try (FileWriter writer = new FileWriter(dataFile)) {
-            gson.toJson(playerData, writer);
-            writer.flush();
-            plugin.getLogger().info("Datos guardados: " + playerData.joinedPlayers.size() + " jugadores, contador en " + playerData.totalPlayerCount);
-        } catch (IOException e) {
-            plugin.getLogger().severe("Error al guardar datos de jugadores: " + e.getMessage());
-            e.printStackTrace();
+        String json;
+        int jugadores;
+        synchronized (this) {
+            json = gson.toJson(playerData);
+            jugadores = playerData.joinedPlayers.size();
+            dirty = false;
+        }
+        synchronized (writeLock) {
+            try (Writer writer = Files.newBufferedWriter(dataFile.toPath(), StandardCharsets.UTF_8)) {
+                writer.write(json);
+            } catch (IOException e) {
+                synchronized (this) {
+                    dirty = true;
+                }
+                plugin.getLogger().log(Level.SEVERE, "Error al guardar datos de jugadores (" + jugadores + ")", e);
+            }
         }
     }
-    
-    public boolean hasJoined(String playerName) {
+
+    // El autoguardado solo toca el disco si algo cambio desde la ultima vez.
+    public void saveIfDirty() {
+        boolean pendiente;
+        synchronized (this) {
+            pendiente = dirty;
+        }
+        if (pendiente) {
+            saveData();
+        }
+    }
+
+    public synchronized boolean hasJoined(String playerName) {
         return playerData.joinedPlayers.contains(playerName.toLowerCase());
     }
-    
+
     public int addPlayer(String playerName) {
         String lowerName = playerName.toLowerCase();
-        if (!playerData.joinedPlayers.contains(lowerName)) {
+        int playerNumber;
+        synchronized (this) {
+            if (playerData.joinedPlayers.contains(lowerName)) {
+                return playerData.playerNumbers.getOrDefault(lowerName, 0);
+            }
             playerData.joinedPlayers.add(lowerName);
-            playerData.totalPlayerCount++;
-            
-            int playerNumber = playerData.totalPlayerCount;
+            playerNumber = ++playerData.totalPlayerCount;
             playerData.playerNumbers.put(lowerName, playerNumber);
-            
-            saveData();
-            plugin.getLogger().info("Nuevo jugador agregado: " + playerName + " - Número: #" + playerNumber);
-            return playerNumber;
+            dirty = true;
         }
-        return playerData.playerNumbers.getOrDefault(lowerName, 0);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, this::saveIfDirty);
+        plugin.getLogger().info("Nuevo jugador agregado: " + playerName + " - Número: #" + playerNumber);
+        return playerNumber;
     }
-    
-    public int getPlayerNumber(String playerName) {
+
+    public synchronized int getPlayerNumber(String playerName) {
         return playerData.playerNumbers.getOrDefault(playerName.toLowerCase(), 0);
     }
-    
-    public int getTotalPlayerCount() {
+
+    public synchronized int getTotalPlayerCount() {
         return playerData.totalPlayerCount;
     }
-    
-    public boolean hasJoinMessageDisabled(String playerName) {
+
+    public synchronized boolean hasJoinMessageDisabled(String playerName) {
         return playerData.joinMessagesDisabled.contains(playerName.toLowerCase());
     }
-    
+
     public boolean toggleJoinMessage(String playerName) {
         String lowerName = playerName.toLowerCase();
         boolean nowDisabled;
-        
-        if (playerData.joinMessagesDisabled.contains(lowerName)) {
-            playerData.joinMessagesDisabled.remove(lowerName);
-            nowDisabled = false;
-        } else {
-            playerData.joinMessagesDisabled.add(lowerName);
-            nowDisabled = true;
+        synchronized (this) {
+            nowDisabled = !playerData.joinMessagesDisabled.remove(lowerName);
+            if (nowDisabled) {
+                playerData.joinMessagesDisabled.add(lowerName);
+            }
+            dirty = true;
         }
-        
-        // Guardar asíncronamente para no bloquear el hilo principal
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, this::saveData);
-        
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, this::saveIfDirty);
         return nowDisabled;
     }
-    
+
     private static class PlayerData {
         Set<String> joinedPlayers = new HashSet<>();
         Map<String, Integer> playerNumbers = new HashMap<>();

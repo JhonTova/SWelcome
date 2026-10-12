@@ -10,6 +10,8 @@ import me.sirius.swelcome.managers.PlayerDataManager;
 import me.sirius.swelcome.managers.MessageManager;
 import me.sirius.swelcome.managers.SkinManager;
 
+import java.util.logging.Level;
+
 public class SWelcome extends SiriusPlugin {
     
     private static SWelcome instance;
@@ -28,7 +30,7 @@ public class SWelcome extends SiriusPlugin {
         configManager = new ConfigManager(this);
         playerDataManager = new PlayerDataManager(this);
         messageManager = new MessageManager(this);
-        skinManager = new SkinManager();
+        skinManager = new SkinManager(this);
         
         configManager.loadConfig();
         playerDataManager.loadData();
@@ -80,11 +82,9 @@ public class SWelcome extends SiriusPlugin {
     private void startAutoSave() {
         autoSaveTask = getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
             try {
-                playerDataManager.saveData();
-                getLogger().info("Auto-save completed");
+                playerDataManager.saveIfDirty();
             } catch (Exception e) {
-                getLogger().severe("Error during auto-save: " + e.getMessage());
-                e.printStackTrace();
+                getLogger().log(Level.SEVERE, "Error en el guardado automático", e);
             }
         }, 6000L, 6000L);
     }
@@ -100,8 +100,7 @@ public class SWelcome extends SiriusPlugin {
                     getLogger().info("Cache cleanup: removed " + (sizeBefore - sizeAfter) + " expired entries");
                 }
             } catch (Exception e) {
-                getLogger().severe("Error during cache cleanup: " + e.getMessage());
-                e.printStackTrace();
+                getLogger().log(Level.SEVERE, "Error al limpiar la caché de skins", e);
             }
         }, 36000L, 36000L);
     }

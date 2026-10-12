@@ -39,19 +39,12 @@ public class PlayerQuitListener implements Listener {
             return;
         }
         
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            String rank = getRank(player);
-            
-            if (configManager.shouldShowRankQuitMessage(rank)) {
-                String quitMessage = configManager.getRankQuitMessage(rank);
-                quitMessage = messageManager.processMessage(quitMessage, player, rank);
-                
-                String colorized = messageManager.colorize(quitMessage);
-                Bukkit.getScheduler().runTask(plugin, () -> {
-                    Bukkit.broadcastMessage(colorized);
-                });
-            }
-        });
+        String rank = getRank(player);
+        if (configManager.shouldShowRankQuitMessage(rank)) {
+            String quitMessage = messageManager.processMessage(configManager.getRankQuitMessage(rank), player, rank);
+            String colorized = messageManager.colorize(quitMessage);
+            Bukkit.getScheduler().runTask(plugin, () -> Bukkit.broadcastMessage(colorized));
+        }
     }
     
     private String getRank(Player player) {

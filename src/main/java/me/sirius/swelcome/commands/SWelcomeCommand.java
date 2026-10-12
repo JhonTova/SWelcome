@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 public class SWelcomeCommand implements CommandExecutor, TabCompleter {
     
@@ -61,8 +62,7 @@ public class SWelcomeCommand implements CommandExecutor, TabCompleter {
             plugin.getLogger().info("Configuración recargada por " + sender.getName());
         } catch (Exception e) {
             sender.sendMessage(messageManager.colorize("&c&l[SWelcome] &cError al recargar la configuración: " + e.getMessage()));
-            plugin.getLogger().severe("Error al recargar la configuración: " + e.getMessage());
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Error al recargar la configuración", e);
         }
         
         return true;

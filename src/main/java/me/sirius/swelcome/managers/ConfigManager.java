@@ -39,6 +39,7 @@ public class ConfigManager {
         showSkinOnJoin = config.getBoolean("settings.show-skin-on-join", true);
         skinSize = config.getInt("settings.skin-size", 8);
         
+        rankMessages.clear();
         ConfigurationSection ranksSection = config.getConfigurationSection("ranks");
         if (ranksSection != null) {
             for (String rank : ranksSection.getKeys(false)) {
